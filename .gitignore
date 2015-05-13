@@ -1,0 +1,17 @@
+*.class
+*.jar
+*.war
+*.ear
+.idea
+.settings
+.classpath
+.project
+run
+*.iml
+*.ipr
+*.iws
+bin
+build
+.gradle
+files
+opt/files

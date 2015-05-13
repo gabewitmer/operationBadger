@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/badger?createDatabaseIfNotExist=true
+    username: root
+    password: root
+  jpa:
+    generateDdl: true
+  server:
+    port: 1234
+    address: 0.0.0.0
+    session-timeout: 1800
