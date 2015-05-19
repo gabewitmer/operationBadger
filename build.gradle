@@ -30,10 +30,12 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
 	compile 'org.springframework.boot:spring-boot-starter-security'
 	compile 'org.springframework.boot:spring-boot-starter-web'
-
 	compile 'mysql:mysql-connector-java'
 
-	//compile 'org.hibernate:hibernate-validator'
+	//emailer dependencies
+	compile 'com.sun.jersey:jersey-core:1.18.3'
+	compile 'com.sun.jersey:jersey-client:1.18.3'
+	compile 'com.sun.jersey.contribs:jersey-multipart:1.18.3'
 }
 
 task wrapper(type:Wrapper) {

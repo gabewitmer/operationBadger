@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -29,7 +30,7 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String updateUser(User user, RedirectAttributes attr) {
-		if (userService.canUpdate(user.getId(), user.getUsername())) {
+		if (userService.canUpdate(user.getId(), user.getUsername(), user.getDisplayName())) {
 			if ("".equals(user.getPassword()) || user.getPassword() == null) {
 				User existingUser = userService.findOne(user.getId());
 				user.setPassword(existingUser.getPassword());
@@ -42,5 +43,12 @@ public class UserController {
 			attr.addFlashAttribute("alertError", "Unable to change Badger to Badger, " + user.getUsername() + " may already be Badgered.");
 		}
 		return "redirect:/secure/user";
+	}
+
+	@RequestMapping(value = "/del/{id}",method = RequestMethod.POST)
+	public String deleteUser(@PathVariable Long id, RedirectAttributes attr) {
+		userService.delete(id);
+		attr.addFlashAttribute("alertSuccess", "Badger has died");
+		return "redirect:/logout";
 	}
 }

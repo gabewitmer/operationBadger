@@ -3,6 +3,7 @@ package com.ghoulgotha.badger;
 import com.ghoulgotha.badger.user.User;
 import com.ghoulgotha.badger.user.UserService;
 import com.ghoulgotha.badger.user.UserSession;
+import com.ghoulgotha.badger.util.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class AuthController {
+
+	@Autowired
+	private EmailService emailService;
 
 	@Autowired
 	private UserService userService;
@@ -42,10 +48,13 @@ public class AuthController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(User user, RedirectAttributes attr) {
-		if (userService.canUpdate(user.getId(), user.getUsername())) {
+		if (userService.canUpdate(user.getId(), user.getUsername(), user.getDisplayName())) {
 			user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 			userService.save(user);
 			attr.addFlashAttribute("alertSuccess", "Successfully registered. Please login");
+			Map<String, Object> data = new HashMap<>();
+			data.put("user", user);
+			emailService.send("Badger registration <registration@socialbadger.com>", user.getUsername(), "Get Badgered", "", "email/registration.ftl", data);
 		} else {
 			attr.addFlashAttribute("alertError", "Unable to Badger Badger, " + user.getUsername() + " may already be Badgered.");
 		}

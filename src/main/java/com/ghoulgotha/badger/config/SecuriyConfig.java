@@ -39,7 +39,7 @@ public class SecuriyConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.antMatchers("/secure/**").hasAnyRole("ADMIN", "USER");
 		http.formLogin()
-				.loginPage("/login").defaultSuccessUrl("/secure")
+				.loginPage("/").defaultSuccessUrl("/secure")
 				.successHandler(new CustomAuthHandler());
 		http.logout()
 				.invalidateHttpSession(true)

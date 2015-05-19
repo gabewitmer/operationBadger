@@ -30,12 +30,12 @@ public class UserService {
 		return repo.findByUsername(username);
 	}
 
-	public Boolean canUpdate(Long id, String username) {
+	public Boolean canUpdate(Long id, String username, String displayName) {
 /*		if (id == null) {
 			id = 0L;
 		}
 		int numberOfUsers = repo.canUpdate(id, username);
 		return numberOfUsers == 0;*/
-		return (repo.canUpdate((id == null) ? 0L : id, username) == 0);
+		return (repo.canUpdate((id == null) ? 0L : id, username, displayName) == 0);
 	}
 }
